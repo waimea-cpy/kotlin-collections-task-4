@@ -137,6 +137,41 @@ fun main() {
     check(cages == listOf("!Tim", EMPTY, "Pam", "Jim", EMPTY, "!Kelly", EMPTY, "!Wanda"))
 
     println()
+
+    //-------------------------------------------------
+    println("Making some room for normal monkeys...")
+
+    clearCage(cages, 6)
+    showMonkeyCages(cages)
+    check(cages == listOf("!Tim", EMPTY, "Pam", "Jim", EMPTY, EMPTY, EMPTY, "!Wanda"))
+
+    println()
+
+    //-------------------------------------------------
+    println("Trying to place normal monkey...")
+
+    val terryCage = placeMonkey(cages, "Terry")
+    showMonkeyCages(cages)
+    check(terryCage == 5)
+    check(cages == listOf("!Tim", EMPTY, "Pam", "Jim", "Terry", EMPTY, EMPTY, "!Wanda"))
+
+    val garyCage = placeMonkey(cages, "Gary")
+    showMonkeyCages(cages)
+    check(garyCage == 6)
+    check(cages == listOf("!Tim", EMPTY, "Pam", "Jim", "Terry", "Gary", EMPTY, "!Wanda"))
+
+    println()
+
+    //-------------------------------------------------
+    println("Trying to invalidly place normal monkey (no free cages not next to violent ones)...")
+
+    val tinaCage = placeMonkey(cages, "Tina")
+    showMonkeyCages(cages)
+    check(tinaCage == -1)
+    check(cages == listOf("!Tim", EMPTY, "Pam", "Jim", "Terry", "Gary", EMPTY, "!Wanda"))
+
+    println()
+
 }
 
 
@@ -149,10 +184,17 @@ fun placeMonkey(cageList: MutableList<String>, name: String): Int {
     println("+++ Putting $name into a cage")
 
     for ((i, cage) in cageList.withIndex()) {
+        // Found a potential cage
         if (cage == EMPTY) {
-            println("+++ Placed into cage ${i + 1}")
-            cageList[i] = name
-            return i + 1
+            // Check to the left
+            if (i == 0 || cageList[i - 1].first() != '!') {
+                // Check to the right
+                if (i == NUMCAGES - 1 || cageList[i + 1].first() != '!') {
+                    println("+++ Placed into cage ${i + 1}")
+                    cageList[i] = name
+                    return i + 1
+                }
+            }
         }
     }
 
