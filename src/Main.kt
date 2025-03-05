@@ -114,17 +114,17 @@ fun main() {
     val timCage = placeViolentMonkey(cages, "Tim")
     showMonkeyCages(cages)
     check(timCage == 1)
-    check(cages == listOf("Tim", EMPTY, "Pam", "Jim", EMPTY, EMPTY, EMPTY, EMPTY))
+    check(cages == listOf("!Tim", EMPTY, "Pam", "Jim", EMPTY, EMPTY, EMPTY, EMPTY))
 
     val kellyCage = placeViolentMonkey(cages, "Kelly")
     showMonkeyCages(cages)
     check(kellyCage == 6)
-    check(cages == listOf("Tim", EMPTY, "Pam", "Jim", EMPTY, "Kelly", EMPTY, EMPTY))
+    check(cages == listOf("!Tim", EMPTY, "Pam", "Jim", EMPTY, "!Kelly", EMPTY, EMPTY))
 
     val wandaCage = placeViolentMonkey(cages, "Wanda")
     showMonkeyCages(cages)
     check(wandaCage == 8)
-    check(cages == listOf("Tim", EMPTY, "Pam", "Jim", EMPTY, "Kelly", EMPTY, "Wanda"))
+    check(cages == listOf("!Tim", EMPTY, "Pam", "Jim", EMPTY, "!Kelly", EMPTY, "!Wanda"))
 
     println()
 
@@ -134,10 +134,9 @@ fun main() {
     val vinceCage = placeViolentMonkey(cages, "Vince")
     showMonkeyCages(cages)
     check(vinceCage == -1)
-    check(cages == listOf("Tim", EMPTY, "Pam", "Jim", EMPTY, "Kelly", EMPTY, "Wanda"))
+    check(cages == listOf("!Tim", EMPTY, "Pam", "Jim", EMPTY, "!Kelly", EMPTY, "!Wanda"))
 
     println()
-
 }
 
 
@@ -183,7 +182,7 @@ fun placeViolentMonkey(cageList: MutableList<String>, name: String): Int {
                 if (i == NUMCAGES - 1 || cageList[i + 1] == EMPTY) {
                     // Good to place here!
                     println("+++ Placed into cage ${i + 1}")
-                    cageList[i] = name
+                    cageList[i] = "!$name"
                     return i + 1
                 }
             }
