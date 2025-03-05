@@ -31,6 +31,7 @@
  */
 const val NUMCAGES = 8      // The total number of cages
 const val EMPTY = "---"     // Represents an empty cage
+const val VIOLENT = '!'     // Indicates a violent monkey
 
 
 /**
@@ -187,9 +188,9 @@ fun placeMonkey(cageList: MutableList<String>, name: String): Int {
         // Found a potential cage
         if (cage == EMPTY) {
             // Check to the left
-            if (i == 0 || cageList[i - 1].first() != '!') {
+            if (i == 0 || cageList[i - 1].first() != VIOLENT) {
                 // Check to the right
-                if (i == NUMCAGES - 1 || cageList[i + 1].first() != '!') {
+                if (i == NUMCAGES - 1 || cageList[i + 1].first() != VIOLENT) {
                     println("+++ Placed into cage ${i + 1}")
                     cageList[i] = name
                     return i + 1
@@ -224,7 +225,7 @@ fun placeViolentMonkey(cageList: MutableList<String>, name: String): Int {
                 if (i == NUMCAGES - 1 || cageList[i + 1] == EMPTY) {
                     // Good to place here!
                     println("+++ Placed into cage ${i + 1}")
-                    cageList[i] = "!$name"
+                    cageList[i] = "$VIOLENT$name"
                     return i + 1
                 }
             }
