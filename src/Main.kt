@@ -131,7 +131,7 @@ fun main() {
     //-------------------------------------------------
     println("Trying an invalid violent monkey placement (no room)...")
 
-    val vinceCage = placeMonkey(cages, "Vince")
+    val vinceCage = placeViolentMonkey(cages, "Vince")
     showMonkeyCages(cages)
     check(vinceCage == -1)
     check(cages == listOf("Tim", EMPTY, "Pam", "Jim", EMPTY, "Kelly", EMPTY, "Wanda"))
@@ -149,7 +149,15 @@ fun main() {
 fun placeMonkey(cageList: MutableList<String>, name: String): Int {
     println("+++ Putting $name into a cage")
 
-    // YOUR CODE HERE
+    for ((i, cage) in cageList.withIndex()) {
+        if (cage == EMPTY) {
+            println("+++ Placed into cage ${i + 1}")
+            cageList[i] = name
+            return i + 1
+        }
+    }
+
+    println("+++ NO ROOM!")
     return -1
 }
 
@@ -166,13 +174,25 @@ fun placeMonkey(cageList: MutableList<String>, name: String): Int {
 fun placeViolentMonkey(cageList: MutableList<String>, name: String): Int {
     println("+++ Putting $name (VIOLENT!) into a cage")
 
-    // YOUR CODE HERE
+    for ((i, cage) in cageList.withIndex()) {
+        // Found a potential cage
+        if (cage == EMPTY) {
+            // Check to the left
+            if (i == 0 || cageList[i - 1] == EMPTY) {
+                // Check to the right
+                if (i == NUMCAGES - 1 || cageList[i + 1] == EMPTY) {
+                    // Good to place here!
+                    println("+++ Placed into cage ${i + 1}")
+                    cageList[i] = name
+                    return i + 1
+                }
+            }
+        }
+    }
+
+    println("+++ NO ROOM!")
     return -1
 }
-
-
-
-
 
 
 /**
@@ -224,7 +244,7 @@ fun showMonkeyCages(cageList: List<String>) {
     val divider = "+--------".repeat(cageList.size) + "+"
 
     println(divider)
-    for (i in 0 ..< cageList.size) print("| Cage ${i+1} ")
+    for (i in 0..<cageList.size) print("| Cage ${i + 1} ")
     println("|")
 
     println(divider)
